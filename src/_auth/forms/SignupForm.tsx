@@ -39,9 +39,9 @@ const SignupForm = () => {
   });
 
   // Queries
-  const { mutateAsync: createUserAccount, isLoading: isCreatingAccount } =
+  const { mutateAsync: createUserAccount, isPending: isCreatingAccount } =
     useCreateUserAccount();
-  const { mutateAsync: signInAccount, isLoading: isSigningInUser } =
+  const { mutateAsync: signInAccount, isPending: isSigningInUser } =
     useSignInAccount();
 
   // Handler
@@ -61,9 +61,7 @@ const SignupForm = () => {
       });
 
       if (!session) {
-        toast({
-          title: "Something went wrong. Please login to your new account.",
-        });
+        toast({ title: "Something went wrong. Please login your new account" });
 
         navigate("/sign-in");
 
@@ -74,6 +72,7 @@ const SignupForm = () => {
 
       if (isLoggedIn) {
         form.reset();
+
         navigate("/");
       } else {
         toast({ title: "Login failed. Please try again." });
