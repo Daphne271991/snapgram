@@ -26,8 +26,7 @@ const SigninForm = () => {
   const { checkAuthUser, isLoading: isUserLoading } = useUserContext();
 
   // Query
-  const { mutateAsync: signInAccount, isPending: isSignInLoading } =
-    useSignInAccount(); // Rename isLoading to avoid conflicts
+  const { mutateAsync: signInAccount, isPending } = useSignInAccount();
 
   const form = useForm<z.infer<typeof SigninValidation>>({
     resolver: zodResolver(SigninValidation),
@@ -42,6 +41,7 @@ const SigninForm = () => {
 
     if (!session) {
       toast({ title: "Login failed. Please try again." });
+
       return;
     }
 
@@ -49,9 +49,11 @@ const SigninForm = () => {
 
     if (isLoggedIn) {
       form.reset();
+
       navigate("/");
     } else {
       toast({ title: "Login failed. Please try again." });
+
       return;
     }
   };
@@ -100,7 +102,7 @@ const SigninForm = () => {
           />
 
           <Button type="submit" className="shad-button_primary">
-            {isSignInLoading || isUserLoading ? ( // Use isSignInLoading instead of isLoading
+            {isPending || isUserLoading ? (
               <div className="flex-center gap-2">
                 <Loader /> Loading...
               </div>
